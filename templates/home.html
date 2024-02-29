@@ -1,0 +1,27 @@
+{% extends "layout.html" %} {% block head %}
+<link href="/static/home.css" rel="stylesheet" />
+{% endblock %} {% block title %} TravelWings {% endblock %} {% block main %}
+<nav class="nav">
+  <div class="nav__logo"><a href="/">TravelWings</a></div>
+  <div class="nav__buttons">
+    <button class="btn" id="signup">Signup</button>
+    <button class="btn" id="user">UserLogin</button>
+    <button class="btn" id="admin">AdminLogin</button>
+  </div>
+</nav>
+<div class="section__container header__container">
+  <h1 class="section__header">Find And Book<br />A Great Experience</h1>
+  <img src="./static/header.jpg" alt="header" />
+</div>
+<script>
+  document.getElementById("signup").addEventListener("click", function () {
+    window.location.href = "/register";
+  });
+  document.getElementById("user").addEventListener("click", function () {
+    window.location.href = "/userlogin";
+  });
+  document.getElementById("admin").addEventListener("click", function () {
+    window.location.href = "/adminlogin";
+  });
+</script>
+{% endblock %}

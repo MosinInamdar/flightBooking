@@ -1,0 +1,40 @@
+{% extends "layout.html" %} {% block head %}
+<link href="/static/home.css" rel="stylesheet" />
+{% endblock %} {% block title %} Flight Booking {% endblock %} {% block main %}
+<nav class="nav">
+  <div class="nav__logo">TravelWings</div>
+  <ul class="nav__links">
+    <li class="link"><a href="/userhome">Home</a></li>
+    <li class="link"><a href="/searchflights">Search for Flights</a></li>
+    <li class="link"><a href="/mybookings">My Bookings</a></li>
+  </ul>
+  <button class="logout-button" id="logout">Logout</button>
+</nav>
+<div class="section__container header__container">
+  <h1 class="section__header">Find And Book<br />A Great Experience</h1>
+  <img src="./static/header.jpg" alt="header" />
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add event listener to the logout button
+    var logoutButton = document.querySelector(".logout-button");
+    logoutButton.addEventListener("click", function () {
+      logout();
+    });
+
+    // Function to send a request to log out
+    function logout() {
+      fetch("/logout")
+        .then((response) => {
+          if (response.ok) {
+            // Redirect to the home page after successful logout
+            window.location.href = "/";
+          } else {
+            console.error("Failed to log out");
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+  });
+</script>
+{% endblock %}

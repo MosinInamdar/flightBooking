@@ -1,0 +1,85 @@
+{% extends "layout.html"%} {% block head %}
+<link href="/static/searchbookings.css" rel="stylesheet" />
+<link href="/static/home.css" rel="stylesheet" />
+{% endblock %} {% block title %} Search booking {% endblock %} {%block main%}
+<nav class="nav">
+  <div class="nav__logo">TravelWings</div>
+  <ul class="nav__links">
+    <li class="link"><a href="/adminhome">Home</a></li>
+    <li class="link"><a href="/addflights">Add Flights</a></li>
+    <li class="link"><a href="/flightdetails">Flight Details</a></li>
+  </ul>
+  <button class="logout-button">Logout</button>
+</nav>
+<h2>Search booking</h2>
+<form action="/flightbookings" method="post">
+  <label for="flight_number">Flight Number:</label><br />
+  <input
+    type="text"
+    id="flight_number"
+    name="flight_number"
+    required
+  /><br /><br />
+  <label for="arrival_time">Arrival Time:</label>
+  <input
+    type="time"
+    id="arrival_time"
+    name="arrival_time"
+    required
+  /><br /><br />
+  <input type="submit" value="Submit" />
+</form>
+{% if message %}
+<p>{{ message }}</p>
+{% endif %} {% if bookings%}
+<table>
+  <thead>
+    <tr>
+      <th>Booking Id</th>
+      <th>User Id</th>
+      <th>Flight Id</th>
+      <th>Booking Time</th>
+      <th>Number Of Tickets</th>
+      <th>Flight Number</th>
+      <th>Departure Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for booking in bookings %}
+    <tr>
+      <td>{{ booking.booking_id }}</td>
+      <td>{{ booking.user_id }}</td>
+      <td>{{ booking.flight_id }}</td>
+      <td>{{ booking.booking_time }}</td>
+      <td>{{ booking.num_tickets }}</td>
+      <td>{{ booking.flight_number }}</td>
+      <td>{{ booking.departure_time }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add event listener to the logout button
+    var logoutButton = document.querySelector(".logout-button");
+    logoutButton.addEventListener("click", function () {
+      logout();
+    });
+
+    // Function to send a request to log out
+    function logout() {
+      fetch("/logout")
+        .then((response) => {
+          if (response.ok) {
+            // Redirect to the home page after successful logout
+            window.location.href = "/";
+          } else {
+            console.error("Failed to log out");
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+  });
+</script>
+{%endblock%}

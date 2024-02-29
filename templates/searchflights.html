@@ -1,0 +1,111 @@
+{% extends "layout.html"%} {% block head %}
+<link href="/static/searchflights.css" rel="stylesheet" />
+<link href="/static/home.css" rel="stylesheet" />
+{% endblock %} {% block title %} Search Flight {% endblock %} {%block main%}
+<nav class="nav">
+  <div class="nav__logo">TravelWings</div>
+  <ul class="nav__links">
+    <li class="link"><a href="/userhome">Home</a></li>
+    <li class="link"><a href="/mybookings">My Bookings</a></li>
+  </ul>
+  <button class="logout-button">Logout</button>
+</nav>
+<h2>Search Flight</h2>
+<form method="get">
+  <label for="arrival_date">Arrival Date:</label>
+  <input
+    type="date"
+    id="arrival_date"
+    name="arrival_date"
+    required
+  /><br /><br />
+  <label for="arrival_time">Arrival Time:</label>
+  <input
+    type="time"
+    id="arrival_time"
+    name="arrival_time"
+    required
+  /><br /><br />
+  <input type="submit" value="Search" />
+</form>
+{% if message %}
+<p>{{ message }}</p>
+{% endif %} {% if flights%}
+<p>Arrival Date: {{ arrival_date }}</p>
+<p>Arrival Time: {{ arrival_time }}</p>
+<table>
+  <thead>
+    <tr>
+      <th>Flight Number</th>
+      <th>Departure Location</th>
+      <th>Arrival Location</th>
+      <th>Departure Time</th>
+      <th>Arrival Time</th>
+      <th>Capacity</th>
+      <th>Available Seats</th>
+      <th>Flight Date</th>
+      <th>Flight Name</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for flight in flights %}
+    <tr>
+      <td>{{ flight.flight_number }}</td>
+      <td>{{ flight.departure_location }}</td>
+      <td>{{ flight.arrival_location }}</td>
+      <td>{{ flight.departure_time }}</td>
+      <td>{{ flight.arrival_time }}</td>
+      <td>{{ flight.capacity }}</td>
+      <td>{{ flight.available_seats }}</td>
+      <td>{{ flight.flight_date }}</td>
+      <td>{{ flight.flight_name }}</td>
+      <td>
+        {% if flight.available_seats > 0 %}
+        <form method="post">
+          <input
+            type="hidden"
+            name="flight_id"
+            value="{{ flight.flight_id }}"
+          />
+          <label for="num_tickets">Number of Tickets:</label>
+          <input
+            type="number"
+            id="num_tickets"
+            name="num_tickets"
+            min="1"
+            required
+          />
+          <button type="submit">Book</button>
+        </form>
+        {% else %} No seats available {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add event listener to the logout button
+    var logoutButton = document.querySelector(".logout-button");
+    logoutButton.addEventListener("click", function () {
+      logout();
+    });
+
+    // Function to send a request to log out
+    function logout() {
+      fetch("/logout")
+        .then((response) => {
+          if (response.ok) {
+            // Redirect to the home page after successful logout
+            window.location.href = "/";
+          } else {
+            console.error("Failed to log out");
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+  });
+</script>
+{%endblock%}

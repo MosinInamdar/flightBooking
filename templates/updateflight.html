@@ -1,0 +1,68 @@
+{% extends "layout.html" %} {% block head %}
+<link href="/static/updateflights.css" rel="stylesheet" />
+<link href="/static/home.css" rel="stylesheet" />
+
+{% endblock %} {% block title %} Update Flight {% endblock %} {% block main %}
+<nav class="nav">
+  <div class="nav__logo">TravelWings</div>
+  <ul class="nav__links">
+    <li class="link"><a href="/adminhome">Home</a></li>
+    <li class="link"><a href="/addflights">Add Flights</a></li>
+    <li class="link"><a href="/flightdetails">Flight Details</a></li>
+  </ul>
+  <button class="logout-button" id="logout">Logout</button>
+</nav>
+<div class="container">
+  <h2 class="form-heading">Update Flight</h2>
+  <form class="update-form" method="POST">
+    <input type="hidden" name="flight_id" value="{{ flight_id }}" />
+    <div class="form-group">
+      <label for="departure_time">Departure Time:</label>
+      <input type="time" id="departure_time" name="departure_time" required />
+    </div>
+    <div class="form-group">
+      <label for="arrival_time">Arrival Time:</label>
+      <input type="time" id="arrival_time" name="arrival_time" required />
+    </div>
+    <div class="form-group">
+      <label for="flight_date">Flight Date:</label>
+      <input type="date" id="flight_date" name="flight_date" required />
+    </div>
+    <div class="form-group">
+      <label for="flight_name">Flight Name:</label>
+      <input type="text" id="flight_name" name="flight_name" required />
+    </div>
+    <div class="form-group">
+      <input
+        class="update-button"
+        type="submit"
+        value="Update Flight"
+        date-flight-id="{{ flight_id }}"
+      />
+    </div>
+  </form>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add event listener to the logout button
+    var logoutButton = document.querySelector(".logout-button");
+    logoutButton.addEventListener("click", function () {
+      logout();
+    });
+
+    // Function to send a request to log out
+    function logout() {
+      fetch("/logout")
+        .then((response) => {
+          if (response.ok) {
+            // Redirect to the home page after successful logout
+            window.location.href = "/";
+          } else {
+            console.error("Failed to log out");
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+  });
+</script>
+{% endblock %}

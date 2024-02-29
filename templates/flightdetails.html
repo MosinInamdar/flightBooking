@@ -1,0 +1,105 @@
+{% extends "layout.html"%} {% block head %}
+<link href="/static/searchflights.css" rel="stylesheet" />
+<link href="/static/home.css" rel="stylesheet" />
+{% endblock %} {% block title %}Flight Details{% endblock %} {%block main%}
+<nav class="nav">
+  <div class="nav__logo">TravelWings</div>
+  <ul class="nav__links">
+    <li class="link"><a href="/adminhome">Home</a></li>
+    <li class="link"><a href="/addflights">Add Flights</a></li>
+    <li class="link"><a href="/flightbookings">Flight Bookings</a></li>
+  </ul>
+  <button class="logout-button" id="logout">Logout</button>
+</nav>
+<h2>Flight Details</h2>
+{% if flights%}
+<table>
+  <thead>
+    <tr>
+      <th>Flight Number</th>
+      <th>Departure Location</th>
+      <th>Arrival Location</th>
+      <th>Departure Time</th>
+      <th>Arrival Time</th>
+      <th>Capacity</th>
+      <th>Available Seats</th>
+      <th>Flight Date</th>
+      <th>Flight Name</th>
+      <th>Action</th>
+      <th>Update Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for flight in flights %}
+    <tr>
+      <td>{{ flight.flight_number }}</td>
+      <td>{{ flight.departure_location }}</td>
+      <td>{{ flight.arrival_location }}</td>
+      <td>{{ flight.departure_time }}</td>
+      <td>{{ flight.arrival_time }}</td>
+      <td>{{ flight.capacity }}</td>
+      <td>{{ flight.available_seats }}</td>
+      <td>{{ flight.flight_date }}</td>
+      <td>{{ flight.flight_name }}</td>
+      <td>
+        {% if flight.available_seats > 0 %}
+        <form method="post">
+          <input
+            type="hidden"
+            name="flight_id"
+            value="{{ flight.flight_id }}"
+          />
+          <button class="delete" type="submit">DELETE</button>
+        </form>
+        {% else %} No seats available {% endif %}
+      </td>
+      <td>
+        <button class="update" type="submit" onclick = >UPDATE</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No Flights</p>
+{%endif%} 
+<script>
+  document.querySelectorAll(".update").forEach(function (element) {
+    element.addEventListener("click", function () {
+      var flight_id = this.closest("tr").querySelector(
+        "input[name='flight_id']"
+      ).value;
+      window.location.href = `/updateflight/${flight_id}`; // Update the URL construction
+    });
+  });
+
+  document.querySelectorAll(".delete").forEach(function (element) {
+    element.addEventListener("click", function (event) {
+        if (!confirm("Are you sure you want to delete?")) {
+            event.preventDefault(); // Prevent the default action (navigation)
+        }
+    });
+});
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add event listener to the logout button
+    var logoutButton = document.querySelector(".logout-button");
+    logoutButton.addEventListener("click", function () {
+      logout();
+    });
+
+    // Function to send a request to log out
+    function logout() {
+      fetch("/logout")
+        .then((response) => {
+          if (response.ok) {
+            // Redirect to the home page after successful logout
+            window.location.href = "/";
+          } else {
+            console.error("Failed to log out");
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+  });
+</script>
+{%endblock%}

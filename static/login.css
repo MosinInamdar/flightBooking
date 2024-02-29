@@ -1,0 +1,70 @@
+/* Login Form styles */
+.login-form {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+  margin: 50px auto;
+}
+
+.login-form h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.login-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"], 
+.login-form input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+
+.login-form a {
+  display: block;
+  text-align: right;
+  margin-bottom: 15px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-form button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+
+.login-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Flash messages */
+.flash-messages {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.flash-messages ul {
+  list-style: none;
+}
+
+.flash-messages ul li {
+  color: red;
+  font-weight: bold;
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- https://favicon.io/emoji-favicons/money-mouth-face/ -->
+    <link href="/static/favicon.ico" rel="icon" />
+
+    <link href="/static/styles.css" rel="stylesheet" />
+
+    {% block head %}{% endblock %}
+
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+
+  <body>
+    {% if get_flashed_messages() %}
+    <header>
+      <div class="alert alert-primary border text-center" role="alert">
+        {{ get_flashed_messages() | join(" ") }}
+      </div>
+    </header>
+    {% endif %} {% block main %}{% endblock %}
+    <!-- <footer class="small text-center text-muted">
+            This is <a href="https://www.linkedin.com/in/pablo-colturi-esteve/">my</a> Final Project for <a href="https://cs50.harvard.edu/x/2020/">CS50</a>. View <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CS50’s Terms of Use</a>.
+        </footer> -->
+  </body>
+</html>

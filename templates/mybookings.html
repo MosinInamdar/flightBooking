@@ -1,0 +1,65 @@
+{% extends "layout.html"%} {% block head %}
+<link href="/static/searchflights.css" rel="stylesheet" />
+<link href="/static/home.css" rel="stylesheet" />
+{% endblock %} {% block title %}Flight Details{% endblock %} {%block main%}
+<nav class="nav">
+  <div class="nav__logo">TravelWings</div>
+  <ul class="nav__links">
+    <li class="link"><a href="/userhome">Home</a></li>
+    <li class="link"><a href="/searchflights">Search for Flights</a></li>
+  </ul>
+  <button class="logout-button" id="logout">Logout</button>
+</nav>
+<h2>Booking Details</h2>
+{% if message %}
+<div>{{message}}</div>
+{% endif %} {% if bookings%}
+<table>
+  <thead>
+    <tr>
+      <th>Booking Id</th>
+      <th>User Id</th>
+      <th>Flight Id</th>
+      <th>Booking Time</th>
+      <th>Number of Tickets</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for booking in bookings %}
+    <tr>
+      <td>{{ booking.booking_id}}</td>
+      <td>{{ booking.user_id }}</td>
+      <td>{{ booking.flight_id }}</td>
+      <td>{{ booking.booking_time }}</td>
+      <td>{{ booking.num_tickets }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No Flights Booked</p>
+{%endif%}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Add event listener to the logout button
+    var logoutButton = document.querySelector(".logout-button");
+    logoutButton.addEventListener("click", function () {
+      logout();
+    });
+
+    // Function to send a request to log out
+    function logout() {
+      fetch("/logout")
+        .then((response) => {
+          if (response.ok) {
+            // Redirect to the home page after successful logout
+            window.location.href = "/";
+          } else {
+            console.error("Failed to log out");
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+  });
+</script>
+{%endblock%}
